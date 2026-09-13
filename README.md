@@ -63,8 +63,8 @@ algoritmo real (dígitos verificadores), não só formato. Se válido, busca no 
 um cliente cujo CPF bate com um veículo daquela placa (`JOIN customers` +
 `vehicles`); sem correspondência, `401`. Encontrando, emite um JWT com
 `sub = customerId`, `type = "customer"` e **15 minutos de expiração** — bem mais
-curto que o token da equipe interna (2h), coerente com um fluxo de autoatendimento
-pontual, não uma sessão de trabalho.
+curto que o token da equipe interna (1h, fixo em `TokenService.java`), coerente
+com um fluxo de autoatendimento pontual, não uma sessão de trabalho.
 
 ## Por que a Lambda fica dentro da VPC
 
