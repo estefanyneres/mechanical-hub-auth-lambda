@@ -11,7 +11,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket       = "mechanical-hub-tfstate"
+    bucket       = "mechanical-hub-tfstate-905418400294"
     key          = "auth-lambda/terraform.tfstate"
     region       = "us-east-1"
     use_lockfile = true
