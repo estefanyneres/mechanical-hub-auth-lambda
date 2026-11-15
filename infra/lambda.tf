@@ -24,9 +24,9 @@ resource "aws_lambda_function" "auth" {
     variables = {
       DB_HOST     = data.aws_db_instance.main.address
       DB_PORT     = "5432"
-      DB_NAME     = "mechanical_hub_db"
+      DB_NAME     = "core_service_db"
       DB_USER     = var.db_username
-      DB_PASSWORD = var.db_password
+      DB_PASSWORD = var.core_service_db_password
       JWT_SECRET  = var.jwt_secret
     }
   }

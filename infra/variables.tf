@@ -17,8 +17,8 @@ variable "db_username" {
   default     = "dbadmin"
 }
 
-variable "db_password" {
-  description = "Senha do banco de dados RDS"
+variable "core_service_db_password" {
+  description = "Senha do banco de dados RDS do core-service (onde customers/vehicles vivem desde a Fase 4)"
   type        = string
   sensitive   = true
 }
