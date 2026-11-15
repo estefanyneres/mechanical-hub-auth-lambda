@@ -24,5 +24,5 @@ data "aws_security_group" "lambda_auth" {
 }
 
 data "aws_db_instance" "main" {
-  db_instance_identifier = "${var.projectName}-db"
+  db_instance_identifier = "${var.projectName}-core-service-db"
 }

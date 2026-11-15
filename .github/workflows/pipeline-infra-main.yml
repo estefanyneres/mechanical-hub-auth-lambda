@@ -64,7 +64,7 @@ jobs:
         run: |
           terraform destroy -auto-approve \
             -var="aws_account_id=${{ secrets.AWS_ACCOUNT_ID }}" \
-            -var="db_password=${{ secrets.DB_PASSWORD }}" \
+            -var="core_service_db_password=${{ secrets.CORE_SERVICE_DB_PASSWORD }}" \
             -var="jwt_secret=${{ secrets.JWT_SECRET }}"
 
       - name: Terraform Apply
@@ -73,7 +73,7 @@ jobs:
         run: |
           terraform apply -auto-approve \
             -var="aws_account_id=${{ secrets.AWS_ACCOUNT_ID }}" \
-            -var="db_password=${{ secrets.DB_PASSWORD }}" \
+            -var="core_service_db_password=${{ secrets.CORE_SERVICE_DB_PASSWORD }}" \
             -var="jwt_secret=${{ secrets.JWT_SECRET }}"
 
       - name: Mostrar outputs
