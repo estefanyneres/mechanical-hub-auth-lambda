@@ -89,30 +89,3 @@ precisa estar na mesma rede — daí o `vpc_config` com a subnet privada e o SG
   Instala as dependências Python, lê `infra/pipeline.conf` e aplica ou destrói o
   Terraform conforme `DESTROY`, passando `aws_account_id`, `db_password` e
   `jwt_secret` via `-var`.
-
-## Estrutura
-
-```
-mechanical-hub-auth-lambda/
-├── .github/workflows/
-│   ├── pipeline-infra-feature.yml
-│   └── pipeline-infra-main.yml
-├── docs/
-│   └── desenhos/
-│       ├── mechanical-hub-infraestrutura-fase-03.jpg
-│       ├── mechanical-hub-infraestrutura-fase-04.jpg
-│       ├── mechanical-hub-apply-destroy-repos-fase-03.jpg
-│       └── mechanical-hub-apply-destroy-repos-fase-04.png
-├── infra/
-│   ├── providers.tf
-│   ├── variables.tf
-│   ├── data.tf
-│   ├── lambda.tf
-│   ├── outputs.tf
-│   └── pipeline.conf
-├── src/
-│   ├── lambda_function.py
-│   └── requirements.txt
-├── .gitignore
-└── README.md
-```
