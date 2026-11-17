@@ -15,7 +15,7 @@ Spring.
 
 ## Diagrama de arquitetura
 
-![Infraestrutura AWS - Fase 3](docs/desenhos/mechanical-hub-infraestrutura-fase-03.jpg)
+![Infraestrutura AWS - Fase 3](docs/desenhos/mechanical-hub-infraestrutura-fase-04.jpg)
 
 VPC, subnets, security groups, EKS, RDS, API Gateway, Lambdas e Datadog no contexto
 de toda a infraestrutura — esta Lambda aparece como "Lambda Auth (POST /auth/cpf)".
@@ -23,14 +23,15 @@ de toda a infraestrutura — esta Lambda aparece como "Lambda Auth (POST /auth/c
 ## Passos para execução e deploy
 
 **Depende do `infra-base` e do `infra-database` já aplicados** — não é só
-convenção: `data.aws_db_instance.main` busca a instância RDS pelo identificador,
-então o `terraform apply` falha se o banco ainda não existir. Também consome a
-subnet privada e o security group `lambda_auth` do `infra-base`. Ordem completa:
-infra-base → infra-k8s → infra-database → **auth-lambda** → api-gateway →
-`mechanical-hub` (app). Para derrubar, ordem inversa, saindo antes do
-`infra-database`.
+convenção: `data.aws_db_instance.main` busca pelo identificador a instância RDS
+**do `core-service`** (`mechanical-hub-core-service-db` — desde a Fase 4, dono
+de clientes/veículos, migrados do monolito legado), então o `terraform apply`
+falha se esse banco ainda não existir. Também consome a subnet privada e o
+security group `lambda_auth` do `infra-base`. Ordem completa: infra-base →
+infra-k8s → infra-database → **auth-lambda** → api-gateway → `mechanical-hub`
+(app). Para derrubar, ordem inversa, saindo antes do `infra-database`.
 
-![Ordem de apply e destroy entre os repositórios](docs/desenhos/mechanical-hub-apply-destroy-repos-fase-03.jpg)
+![Ordem de apply e destroy entre os repositórios](docs/desenhos/mechanical-hub-apply-destroy-repos-fase-04.png)
 
 1. Configurar no repositório os secrets `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`,
    `AWS_SESSION_TOKEN`, `AWS_ACCOUNT_ID`, `DB_PASSWORD` e `JWT_SECRET` (precisa ser
@@ -51,10 +52,10 @@ infra-base → infra-k8s → infra-database → **auth-lambda** → api-gateway 
 
 RFCs e ADRs ficam centralizados no repo da aplicação, para não duplicar/desincronizar entre os 6 repositórios. As diretamente relevantes para este repo:
 
-- [RFC-003 — Estratégia de autenticação: dois fluxos coexistindo](https://github.com/estefanyneres/mechanical-hub/blob/main/src/docs/fase3/documentacao/rfcs.md)
-- [RFC-004 — Lambda authorizer validando na borda, mantendo Spring Security como defesa em profundidade](https://github.com/estefanyneres/mechanical-hub/blob/main/src/docs/fase3/documentacao/rfcs.md)
-- [ADR-002 — Descoberta entre repositórios via data source](https://github.com/estefanyneres/mechanical-hub/blob/main/src/docs/fase3/documentacao/adrs.md)
-- [ADR-007 — Runtime da Lambda justificado pelo teto de simultaneidade](https://github.com/estefanyneres/mechanical-hub/blob/main/src/docs/fase3/documentacao/adrs.md)
+- [RFC-003 — Estratégia de autenticação: dois fluxos coexistindo](https://github.com/estefanyneres/mechanical-hub-core-service/blob/main/docs/rfcs-fase3.md)
+- [RFC-004 — Lambda authorizer validando na borda, mantendo Spring Security como defesa em profundidade](https://github.com/estefanyneres/mechanical-hub-core-service/blob/main/docs/rfcs-fase3.md)
+- [ADR-002 — Descoberta entre repositórios via data source](https://github.com/estefanyneres/mechanical-hub-core-service/blob/main/docs/adrs-fase3.md)
+- [ADR-007 — Runtime da Lambda justificado pelo teto de simultaneidade](https://github.com/estefanyneres/mechanical-hub-core-service/blob/main/docs/adrs-fase3.md)
 
 ## Como a autenticação funciona
 
@@ -88,28 +89,3 @@ precisa estar na mesma rede — daí o `vpc_config` com a subnet privada e o SG
   Instala as dependências Python, lê `infra/pipeline.conf` e aplica ou destrói o
   Terraform conforme `DESTROY`, passando `aws_account_id`, `db_password` e
   `jwt_secret` via `-var`.
-
-## Estrutura
-
-```
-mechanical-hub-auth-lambda/
-├── .github/workflows/
-│   ├── pipeline-infra-feature.yml
-│   └── pipeline-infra-main.yml
-├── docs/
-│   └── desenhos/
-│       ├── mechanical-hub-infraestrutura-fase-03.jpg
-│       └── mechanical-hub-apply-destroy-repos-fase-03.jpg
-├── infra/
-│   ├── providers.tf
-│   ├── variables.tf
-│   ├── data.tf
-│   ├── lambda.tf
-│   ├── outputs.tf
-│   └── pipeline.conf
-├── src/
-│   ├── lambda_function.py
-│   └── requirements.txt
-├── .gitignore
-└── README.md
-```
