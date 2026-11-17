@@ -15,7 +15,7 @@ Spring.
 
 ## Diagrama de arquitetura
 
-![Infraestrutura AWS - Fase 3](docs/desenhos/mechanical-hub-infraestrutura-fase-03.jpg)
+![Infraestrutura AWS - Fase 3](docs/desenhos/mechanical-hub-infraestrutura-fase-04.jpg)
 
 VPC, subnets, security groups, EKS, RDS, API Gateway, Lambdas e Datadog no contexto
 de toda a infraestrutura — esta Lambda aparece como "Lambda Auth (POST /auth/cpf)".
@@ -100,6 +100,7 @@ mechanical-hub-auth-lambda/
 ├── docs/
 │   └── desenhos/
 │       ├── mechanical-hub-infraestrutura-fase-03.jpg
+│       ├── mechanical-hub-infraestrutura-fase-04.jpg
 │       ├── mechanical-hub-apply-destroy-repos-fase-03.jpg
 │       └── mechanical-hub-apply-destroy-repos-fase-04.png
 ├── infra/
