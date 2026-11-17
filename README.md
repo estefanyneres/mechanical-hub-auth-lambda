@@ -23,12 +23,13 @@ de toda a infraestrutura — esta Lambda aparece como "Lambda Auth (POST /auth/c
 ## Passos para execução e deploy
 
 **Depende do `infra-base` e do `infra-database` já aplicados** — não é só
-convenção: `data.aws_db_instance.main` busca a instância RDS pelo identificador,
-então o `terraform apply` falha se o banco ainda não existir. Também consome a
-subnet privada e o security group `lambda_auth` do `infra-base`. Ordem completa:
-infra-base → infra-k8s → infra-database → **auth-lambda** → api-gateway →
-`mechanical-hub` (app). Para derrubar, ordem inversa, saindo antes do
-`infra-database`.
+convenção: `data.aws_db_instance.main` busca pelo identificador a instância RDS
+**do `core-service`** (`mechanical-hub-core-service-db` — desde a Fase 4, dono
+de clientes/veículos, migrados do monolito legado), então o `terraform apply`
+falha se esse banco ainda não existir. Também consome a subnet privada e o
+security group `lambda_auth` do `infra-base`. Ordem completa: infra-base →
+infra-k8s → infra-database → **auth-lambda** → api-gateway → `mechanical-hub`
+(app). Para derrubar, ordem inversa, saindo antes do `infra-database`.
 
 ![Ordem de apply e destroy entre os repositórios](docs/desenhos/mechanical-hub-apply-destroy-repos-fase-03.jpg)
 
